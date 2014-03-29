@@ -1,5 +1,6 @@
 import praw
 from secret_settings import username, password
+import time
 
 # initialize reddit object
 r = praw.Reddit(user_agent='UNIQUE USER AGENT')
@@ -17,10 +18,13 @@ subreddit_comments = praw.helpers.comment_stream(r, subreddit, limit=None)
 complete = set()
 
 for comment in subreddit_comments:
-    # check comment for "alot"
-    if comment.body == "alot" and comment.id not in complete:
-        print "found alot at comment {}".format(comment.id)
-        complete.add(comment.id)
-        # comment snarky response here!
-    else:
-        continue
+    words = comment.body.split()
+    for word in words:
+        if word == "alot" and comment.id not in complete:
+            print "found alot at comment {} at {}".format(comment.id, time.strftime("%H:%M:%S"))
+            complete.add(comment.id)
+            # comment snarky response here!
+            comment.reply("It's 'a lot' not 'alot,' ya dingus!")
+            print "replied to comment {}".format(comment.id)
+        else:
+            continue
