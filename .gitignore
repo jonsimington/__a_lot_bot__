@@ -1,0 +1,4 @@
+# auth junk
+secret_settings.py
+
+*.pyc
