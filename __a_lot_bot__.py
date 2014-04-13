@@ -26,7 +26,7 @@ def reply(words, comment, complete):
         if word == "alot" and comment.id not in complete:
             # try to comment snarky response
             try:
-                comment.reply("It's 'a lot' not 'alot,' ya dingus!")
+                comment.reply("It's 'a lot' not '[alot](http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html),' ya dingus!")
                 print HYPHEN_ROW
                 print "|  {}  |   ".format(NUM_COMMENTED) + colored('replied','green') +  "   | {} | at | {}  | ".format(comment.id, datetime.datetime.now())
                 print HYPHEN_ROW
