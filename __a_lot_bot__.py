@@ -2,7 +2,7 @@ import praw
 from secret_settings import username, password
 import datetime
 import urllib2
-from requests.exceptions import HTTPError
+import requests
 ###############################################################################
 #
 #    __a_lot_bot__: a grammar nazi's best frand
