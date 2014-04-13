@@ -20,34 +20,46 @@ def main():
 
 # replies to a comment
 def reply(words, comment, complete):
+    global NUM_COMMENTED
     for word in words:
         if word == "alot" and comment.id not in complete:
             # try to comment snarky response
             try:
                 comment.reply("It's 'a lot' not 'alot,' ya dingus!")
                 print HYPHEN_ROW
-                print "| replied to comment | {} | at | {}| ".format(comment.id, datetime.datetime.now())
+                print "|  {}  |   replied   | {} | at | {}  | ".format(NUM_COMMENTED, comment.id, datetime.datetime.now())
                 print HYPHEN_ROW
+                NUM_COMMENTED += 1
 
                 # comment is viewed -- add comment to the complete set
                 complete.add(comment.id)
 
             # posting too often in a subreddit
             except praw.errors.RateLimitExceeded:
-                print "    posting too often..."
+                print HYPHEN_ROW
+                print "|  {}  |  rate limit | {} | at | {}  | ".format(NUM_COMMENTED, comment.id, datetime.datetime.now())
+                print HYPHEN_ROW
+                NUM_COMMENTED += 1
                 pass
 
             # 403 error, perhaps the bot is banned by the subreddit it's trying
             # to comment to
             except requests.exceptions.HTTPError:
-                print "    encountered 403 error"
+                print HYPHEN_ROW
+                print "|  {}  |  403 error  | {} | at | {}  | ".format(NUM_COMMENTED, comment.id, datetime.datetime.now())
+                print HYPHEN_ROW
+                NUM_COMMENTED += 1
                 pass
         else:
             continue
 
 if __name__ == "__main__":
-    TOP_ROW = "|                    |   id    |    |            time           |" 
-    HYPHEN_ROW = "|---------------------------------------------------------------|"
+    # counter for table labeling
+    NUM_COMMENTED = 0
+
+    # strings used to create table
+    TOP_ROW = "|  #  |   status    |   id    |    |            time             |"
+    HYPHEN_ROW = "|----------------------------------------------------------------|"
 
     # initialize reddit object
     r = praw.Reddit(user_agent='UNIQUE USER AGENT')
