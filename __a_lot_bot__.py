@@ -3,6 +3,7 @@ from secret_settings import username, password
 import datetime
 import urllib2
 import requests
+from termcolor import colored
 ###############################################################################
 #
 #    __a_lot_bot__: a grammar nazi's best frand
@@ -27,7 +28,7 @@ def reply(words, comment, complete):
             try:
                 comment.reply("It's 'a lot' not 'alot,' ya dingus!")
                 print HYPHEN_ROW
-                print "|  {}  |   replied   | {} | at | {}  | ".format(NUM_COMMENTED, comment.id, datetime.datetime.now())
+                print "|  {}  |   ".format(NUM_COMMENTED) + colored('replied','green') +  "   | {} | at | {}  | ".format(comment.id, datetime.datetime.now())
                 print HYPHEN_ROW
                 NUM_COMMENTED += 1
 
@@ -37,7 +38,7 @@ def reply(words, comment, complete):
             # posting too often in a subreddit
             except praw.errors.RateLimitExceeded:
                 print HYPHEN_ROW
-                print "|  {}  |  rate limit | {} | at | {}  | ".format(NUM_COMMENTED, comment.id, datetime.datetime.now())
+                print "|  {}  |  ".format(NUM_COMMENTED) + colored('rate limit','red') + " | {} | at | {}  | ".format(comment.id, datetime.datetime.now())
                 print HYPHEN_ROW
                 NUM_COMMENTED += 1
                 pass
@@ -46,7 +47,7 @@ def reply(words, comment, complete):
             # to comment to
             except requests.exceptions.HTTPError:
                 print HYPHEN_ROW
-                print "|  {}  |  403 error  | {} | at | {}  | ".format(NUM_COMMENTED, comment.id, datetime.datetime.now())
+                print "|  {}  |  ".format(NUM_COMMENTED) + colored('403 error','red') + "  | {} | at | {}  | ".format(comment.id, datetime.datetime.now())
                 print HYPHEN_ROW
                 NUM_COMMENTED += 1
                 pass
