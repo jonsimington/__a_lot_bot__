@@ -25,7 +25,9 @@ def reply(words, comment, complete):
             # try to comment snarky response
             try:
                 comment.reply("It's 'a lot' not 'alot,' ya dingus!")
-                print "replied to comment {} at {}".format(comment.id, datetime.datetime.now())
+                print HYPHEN_ROW
+                print "| replied to comment | {} | at | {}| ".format(comment.id, datetime.datetime.now())
+                print HYPHEN_ROW
 
                 # comment is viewed -- add comment to the complete set
                 complete.add(comment.id)
@@ -44,6 +46,9 @@ def reply(words, comment, complete):
             continue
 
 if __name__ == "__main__":
+    TOP_ROW = "|                    |   id    |    |            time           |" 
+    HYPHEN_ROW = "|---------------------------------------------------------------|"
+
     # initialize reddit object
     r = praw.Reddit(user_agent='UNIQUE USER AGENT')
 
@@ -51,6 +56,10 @@ if __name__ == "__main__":
     r.login(username, password)
 
     print "authenticated to reddit"
+
+    # table formatting
+    print HYPHEN_ROW
+    print TOP_ROW
 
     subreddit = r.get_subreddit('all')
 
