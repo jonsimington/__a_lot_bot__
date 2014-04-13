@@ -32,13 +32,13 @@ def reply(words, comment, complete):
 
             # posting too often in a subreddit
             except praw.errors.RateLimitExceeded:
-                print "\tposting too often..."
+                print "    posting too often..."
                 pass
 
             # 403 error, perhaps the bot is banned by the subreddit it's trying
             # to comment to
             except requests.exceptions.HTTPError:
-                print "\tencountered 403 error"
+                print "    encountered 403 error"
                 pass
         else:
             continue
