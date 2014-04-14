@@ -28,7 +28,10 @@ def reply(words, comment, complete):
             try:
                 comment.reply("It's 'a lot' not '[alot](http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html),' ya dingus!")
                 print HYPHEN_ROW
-                print "|  {}  |   ".format(NUM_COMMENTED) + colored('replied','green') +  "   | {} | at | {}  | ".format(comment.id, datetime.datetime.now())
+                if NUM_COMMENTED > 9:
+                    print "|  {}  |   ".format(NUM_COMMENTED) + colored('replied','green') +  "   | {} | at | {}".format(comment.id, datetime.datetime.now()) + offset(NUM_COMMENTED) + "| "
+                else:
+                    print "|  {}  |   ".format(NUM_COMMENTED) + colored('replied','green') +  "   | {} | at | {}".format(comment.id, datetime.datetime.now()) + offset(NUM_COMMENTED) + "| "
                 print HYPHEN_ROW
                 NUM_COMMENTED += 1
 
@@ -38,7 +41,10 @@ def reply(words, comment, complete):
             # posting too often in a subreddit
             except praw.errors.RateLimitExceeded:
                 print HYPHEN_ROW
-                print "|  {}  |  ".format(NUM_COMMENTED) + colored('rate limit','red') + " | {} | at | {}  | ".format(comment.id, datetime.datetime.now())
+                if NUM_COMMENTED > 9:
+                    print "|  {}  |  ".format(NUM_COMMENTED) + colored('rate limit','red') + " | {} | at | {}".format(comment.id, datetime.datetime.now()) + offset(NUM_COMMENTED) + "| "
+                else:
+                    print "|  {}  |  ".format(NUM_COMMENTED) + colored('rate limit','red') + " | {} | at | {}".format(comment.id, datetime.datetime.now()) + offset(NUM_COMMENTED) + "| "
                 print HYPHEN_ROW
                 NUM_COMMENTED += 1
                 pass
@@ -47,12 +53,27 @@ def reply(words, comment, complete):
             # to comment to
             except requests.exceptions.HTTPError:
                 print HYPHEN_ROW
-                print "|  {}  |  ".format(NUM_COMMENTED) + colored('403 error','red') + "  | {} | at | {}  | ".format(comment.id, datetime.datetime.now())
+                if NUM_COMMENTED > 9:
+                    print "|  {}  |  ".format(NUM_COMMENTED) + colored('403 error','red') + "  | {} | at | {}".format(comment.id, datetime.datetime.now()) + offset(NUM_COMMENTED) + "| "
+                else:
+                    print "|  {}  |  ".format(NUM_COMMENTED) + colored('403 error','red') + "  | {} | at | {}".format(comment.id, datetime.datetime.now()) + offset(NUM_COMMENTED) + "| "
                 print HYPHEN_ROW
                 NUM_COMMENTED += 1
                 pass
         else:
             continue
+
+def offset(NUM_COMMENTED):
+    # single digit
+    if NUM_COMMENTED <= 9:
+        return "  "
+    # 2 digits
+    if NUM_COMMENTED > 9:
+        return " "
+    # 3 digits
+    if NUM_COMMENTED > 99:
+        return ""
+
 
 if __name__ == "__main__":
     # counter for table labeling
