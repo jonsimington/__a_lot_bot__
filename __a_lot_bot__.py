@@ -27,12 +27,7 @@ def reply(words, comment, complete):
             # try to comment snarky response
             try:
                 comment.reply("It's 'a lot' not '[alot](http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html),' ya dingus!")
-                print HYPHEN_ROW
-                if NUM_COMMENTED > 9:
-                    print "|  {}  |   ".format(NUM_COMMENTED) + colored('replied','green') +  "   | {} | at | {}".format(comment.id, datetime.datetime.now()) + offset(NUM_COMMENTED) + "| "
-                else:
-                    print "|  {}  |   ".format(NUM_COMMENTED) + colored('replied','green') +  "   | {} | at | {}".format(comment.id, datetime.datetime.now()) + offset(NUM_COMMENTED) + "| "
-                print HYPHEN_ROW
+                print "|  {}  |   ".format(NUM_COMMENTED) + colored('replied','green') +  "   | {} | at | {}".format(comment.id, datetime.datetime.now()) + " |"
                 NUM_COMMENTED += 1
 
                 # comment is viewed -- add comment to the complete set
@@ -40,39 +35,18 @@ def reply(words, comment, complete):
 
             # posting too often in a subreddit
             except praw.errors.RateLimitExceeded:
-                print HYPHEN_ROW
-                if NUM_COMMENTED > 9:
-                    print "|  {}  |  ".format(NUM_COMMENTED) + colored('rate limit','red') + " | {} | at | {}".format(comment.id, datetime.datetime.now()) + offset(NUM_COMMENTED) + "| "
-                else:
-                    print "|  {}  |  ".format(NUM_COMMENTED) + colored('rate limit','red') + " | {} | at | {}".format(comment.id, datetime.datetime.now()) + offset(NUM_COMMENTED) + "| "
-                print HYPHEN_ROW
+                print "|  {}  |  ".format(NUM_COMMENTED) + colored('rate limit','red') + " | {} | at | {}".format(comment.id, datetime.datetime.now()) + " |"
                 NUM_COMMENTED += 1
                 pass
 
             # 403 error, perhaps the bot is banned by the subreddit it's trying
             # to comment to
             except requests.exceptions.HTTPError:
-                print HYPHEN_ROW
-                if NUM_COMMENTED > 9:
-                    print "|  {}  |  ".format(NUM_COMMENTED) + colored('403 error','red') + "  | {} | at | {}".format(comment.id, datetime.datetime.now()) + offset(NUM_COMMENTED) + "| "
-                else:
-                    print "|  {}  |  ".format(NUM_COMMENTED) + colored('403 error','red') + "  | {} | at | {}".format(comment.id, datetime.datetime.now()) + offset(NUM_COMMENTED) + "| "
-                print HYPHEN_ROW
+                print "|  {}  |  ".format(NUM_COMMENTED) + colored('403 error','red') + "  | {} | at | {}".format(comment.id, datetime.datetime.now()) + " |"
                 NUM_COMMENTED += 1
                 pass
         else:
             continue
-
-def offset(NUM_COMMENTED):
-    # single digit
-    if NUM_COMMENTED <= 9:
-        return "  "
-    # 2 digits
-    if NUM_COMMENTED > 9:
-        return " "
-    # 3 digits
-    if NUM_COMMENTED > 99:
-        return ""
 
 
 if __name__ == "__main__":
@@ -80,8 +54,7 @@ if __name__ == "__main__":
     NUM_COMMENTED = 0
 
     # strings used to create table
-    TOP_ROW = "|  #  |   status    |   id    |    |            time             |"
-    HYPHEN_ROW = "|----------------------------------------------------------------|"
+    TOP_ROW = "|  #  |   status    |   id    |    |            time           |"
 
     # initialize reddit object
     r = praw.Reddit(user_agent='UNIQUE USER AGENT')
@@ -92,7 +65,6 @@ if __name__ == "__main__":
     print "authenticated to reddit"
 
     # table formatting
-    print HYPHEN_ROW
     print TOP_ROW
 
     subreddit = r.get_subreddit('all')
