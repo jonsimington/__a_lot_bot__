@@ -44,6 +44,7 @@ def reply(words, comment, complete):
             except requests.exceptions.HTTPError:
                 print "|  {}  |  ".format(NUM_COMMENTED) + colored('403 error','red') + "  | {} | at | {}".format(comment.id, datetime.datetime.now()) + " |"
                 NUM_COMMENTED += 1
+                complete.add(comment.id)
                 pass
         else:
             continue
