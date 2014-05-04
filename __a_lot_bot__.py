@@ -4,6 +4,7 @@ import datetime
 import urllib2
 import requests
 from termcolor import colored
+import string
 ###############################################################################
 #
 #    __a_lot_bot__: a grammar nazi's best frand
@@ -23,7 +24,11 @@ def main():
 def reply(words, comment, complete):
     global NUM_COMMENTED
     for word in words:
-        if word == "alot" and comment.id not in complete:
+        # removes punctuation from word
+        word = word.strip(string.punctuation)
+
+        # check all common forms of 'alot' that users comment
+        if word == "alot" or word == "Alot" or word == "ALOT" and comment.id not in complete:
             # try to comment snarky response
             try:
                 comment.reply("It's 'a lot' not '[alot](http://hyperboleandahalf.blogspot.com/2010/04/alot-is-better-than-you-at-everything.html),' ya dingus!")
